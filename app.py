@@ -65,12 +65,12 @@ def vendor_login():
         else:
             # session: Store Information About a specific user
             user_record = cursor.fetchone()
-            session['key'] = user_record[1]
-            session['vendor_id'] = user_record[0]
-            session['contact'] = user_record[2]
+            session['key'] = user_record[0]
+            session['vendor_id'] = user_record[2]
+            session['contact'] = user_record[1]
             session['location'] = user_record[4]
             session['image'] = user_record[5]
-            # session['desc'] = user_record[7]
+            session['desc'] = user_record[6]
 
             return redirect('/vendor_profile')
     else:
