@@ -10,6 +10,10 @@ app.secret_key = "1234#$fuhutguhiknknnnnk6568gghcghhvufuy"
 
 # 1. Vendor Registration
 
+@app.route('/')
+def main():
+    return render_template('index.html')
+
 
 @app.route('/vendor_registration', methods=['POST', 'GET'])
 def register_vendor():
@@ -80,6 +84,37 @@ def vendor_login():
 @app.route('/vendor_profile')
 def vendor_profile():
     return render_template('vendor_profile.html')
+
+@app.route('/add_product', methods=['POST', 'GET'])
+def add_product():
+    if request.method == 'POST':
+        product_name = request.form['name']
+        product_desc = request.form['desc']
+        product_cost = request.form['cost']
+        product_discount = request.form['discount']
+        product_category = request.form['category']
+        product_brand = request.form['brand']
+        product_image = request.files['image']
+        product_image.save('static/products/' + product_image.filename)
+
+        vendor_id = request.form['vendor']
+
+        connection = pymysql.connect(
+            host='localhost', user='root', password='', database='dshopdb')
+
+        cursor = connection.cursor()
+
+        data = (product_name, product_desc, product_cost, product_discount,
+                product_category, product_brand, product_image.filename, vendor_id)
+
+        sql = "insert into products (product_name, product_desc, product_cost, product_discount, product_category, product_brand, product_image, vendor_id) values (%s, %s, %s, %s, %s, %s, %s, %s)"
+
+        cursor.execute(sql, data)
+        connection.commit()
+        return render_template('vendor_profile.html', message='Product Added Successfully')
+
+    else:
+        return render_template('vendor_profile.html', message='Please Add Product Details')
 
 
 app.run(debug=True)
