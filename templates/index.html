@@ -5,7 +5,7 @@
         <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css'
             rel='stylesheet'>
         <link rel="stylesheet" href="../static/index.css">
-        <script src="../static/index.js"></script>
+        
         <style>
             .btn{
                 background-color: aqua;
@@ -46,8 +46,8 @@
                         purchase goods or services from.
                     </h2>
                     <br>
-                    <a href="/save_vendor" class="btn ">Sell Products</a>
-                    <a href="#" class="btn ">Buy Products</a>
+                    <a href="/vendor_login" class="btn ">Sell Products</a>
+                    <a href="/view_products" class="btn ">Buy Products</a>
                 </div>
                 <div class="home-computer-container">
                     <img class="home-computer"
@@ -86,6 +86,10 @@
                 </div>
             </section>
         </main>
+
+        {% include 'footer.html' %}
+
+        <script src="../static/index.js"></script>
 
     </body>
 </html>

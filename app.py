@@ -69,9 +69,9 @@ def vendor_login():
         else:
             # session: Store Information About a specific user
             user_record = cursor.fetchone()
-            session['key'] = user_record[0]
-            session['vendor_id'] = user_record[2]
-            session['contact'] = user_record[1]
+            session['key'] = user_record[1]
+            session['vendor_id'] = user_record[0]
+            session['contact'] = user_record[2]
             session['location'] = user_record[4]
             session['image'] = user_record[5]
             session['desc'] = user_record[6]
@@ -115,6 +115,26 @@ def add_product():
 
     else:
         return render_template('vendor_profile.html', message='Please Add Product Details')
+    
+@app.route('/view_products')
+def view_products():
+    connection = pymysql.connect(
+            host='localhost', user='root', password='', database='dshopdb')
+
+    cursor = connection.cursor()
+
+    sql = "select * from products where vendor_id = %s"
+
+    cursor.execute(sql, session['vendor_id'])
+
+    count = cursor.rowcount
+
+    if count == 0:
+        return render_template('view_products.html', message='No products available')
+
+    else:
+        data = cursor.fetchall()
+        return render_template('view_products.html', products=data)
 
 
 app.run(debug=True)
