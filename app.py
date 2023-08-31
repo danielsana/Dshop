@@ -74,8 +74,8 @@ def vendor_login():
             session['vendor_id'] = user_record[0]
             session['contact'] = user_record[2]
             session['location'] = user_record[4]
-            session['image'] = user_record[5]
-            session['desc'] = user_record[6]
+            session['image'] = user_record[6]
+            session['desc'] = user_record[7]
 
             return redirect('/vendor_profile')
     else:
@@ -163,5 +163,30 @@ def buy_products():
 
     return render_template('buy_products.html', phones=phones, laptops=laptops, shoes=shoes)
 
+@app.route('/single_item/<product_id>')
+def single_item(product_id):
+    connection = pymysql.connect(
+        host='localhost', user='root', password='', database='dshopdb')
+
+    cursor = connection.cursor()
+
+    sql = "select * from products where product_id = %s"
+
+    cursor.execute(sql, product_id)
+
+    single_record = cursor.fetchone()
+
+
+    
+
+    category = single_record[5]
+
+    cursor_similar = connection.cursor()
+    sql_similar = "select * from products where product_category = %s ORDER BY RAND() limit 3"
+    cursor_similar.execute(sql_similar, category)
+
+    similar_products = cursor_similar.fetchall()
+
+    return render_template('single_item.html', single_record=single_record, similar_products=similar_products)
 
 app.run(debug=True)
