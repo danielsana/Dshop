@@ -189,4 +189,52 @@ def single_item(product_id):
 
     return render_template('single_item.html', single_record=single_record, similar_products=similar_products)
 
+@app.route('/user_register', methods = ['POST', 'GET'])
+def user_register():
+
+    if request.method == 'POST':
+        username = request.form['username']
+        phone = request.form['phone']
+        password = request.form['password']
+
+        connection = pymysql.connect(
+        host='localhost', user='root', password='', database='dshopdb')
+
+        cursor = connection.cursor()
+
+        sql = "insert into users (username, phone, password) values (%s, %s, %s)"
+        cursor.execute(sql, (username, phone, password))
+        connection.commit()
+
+        return render_template('user_register.html', message = "Success!")
+    else:
+        return render_template('user_register.html', message = "Register Here")
+
+@app.route('/user_login', methods=['POST', 'GET'])
+def user_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        connection = pymysql.connect(
+        host='localhost', user='root', password='', database='dshopdb')
+
+        cursor = connection.cursor()
+
+        sql = 'select * from users where username = %s and password = %s'
+        cursor.execute(sql, (username, password))
+
+        count = cursor.rowcount
+        if count == 0:
+            return render_template('user_login.html', message='Invalid Credentials')
+        else:
+            # session: Store Information About a specific user
+            user_record = cursor.fetchone()
+            session['user_key'] = user_record[1]
+            session['phone'] = user_record[2]
+
+            return redirect('/buy_products')
+    else:
+        return render_template('user_login.html', message='Please Login Here')
+
 app.run(debug=True)
