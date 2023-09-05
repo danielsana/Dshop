@@ -146,8 +146,8 @@ def update_product(product_id):
         product_discount = request.form['discount']
         product_category = request.form['category']
         product_brand = request.form['brand']
-        image_url = request.files['image']
-        image_url.save('static/products/' + image_url.filename)
+        product_image = request.files['image']
+        product_image.save('static/products/' + product_image.filename)
 
         vendor_id = request.form['vendor']
 
@@ -155,9 +155,9 @@ def update_product(product_id):
         host='localhost', user='root', password='', database='dshopdb')
         
         cursor = connection.cursor()
-        sql = "update products set product_name = %s, product_desc=%s, product_cost = %s, product_discount = %s, product_category = %s, product_brand = %s, image_url = %s where product_id = %s"
+        sql = "update products set product_name = %s, product_desc=%s, product_cost = %s, product_discount = %s, product_category = %s, product_brand = %s, product_image = %s where product_id = %s"
 
-        data = (product_name, product_desc, product_cost, product_discount, product_category, product_brand, image_url.filename, product_id)
+        data = (product_name, product_desc, product_cost, product_discount, product_category, product_brand, product_image.filename, product_id)
 
         cursor.execute(sql, data)
         connection.commit()
@@ -213,9 +213,6 @@ def single_item(product_id):
     cursor.execute(sql, product_id)
 
     single_record = cursor.fetchone()
-
-
-    
 
     category = single_record[5]
 

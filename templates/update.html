@@ -26,22 +26,22 @@
                             enctype="multipart/form-data">
 
                             <label for="name" class="form-label"> Product Name </label>
-                            <input type="text" name="name" id="name" class="form-control" value="{{data[1]}}">
+                            <input type="text" name="name" id="name" class="form-control" value="{{data[2]}}">
 
                             <label for="desc" class="form-label"> Product Description </label>
                             <textarea name="desc" id="desc" cols="30" rows="10"
-                                class="form-control">{{data[2]}}</textarea>
+                                class="form-control">{{data[3]}}</textarea>
 
                             <label for="cost" class="form-label"> Product Cost </label>
-                            <input type="number" name="cost" id="cost" class="form-control" value="{{data[3]}}">
+                            <input type="number" name="cost" id="cost" class="form-control" value="{{data[4]}}">
 
 
                             <label for="discount" class="form-label"> Product Discount </label>
-                            <input type="number" name="discount" id="discount" class="form-control" value="{{data[4]}}">
+                            <input type="number" name="discount" id="discount" class="form-control" value="{{data[5]}}">
 
 
                             <label for="category" class="form-label"> Product Category </label>
-                            <select name="category" id="category" class="form-control" value="{{data[5]}}">
+                            <select name="category" id="category" class="form-control" value="{{data[6]}}">
                                 <option value="phones">Phones</option>
                                 <option value="laptops">Laptops</option>
                                 <option value="shoes">Shoes</option>
@@ -51,10 +51,10 @@
                             </select>
 
                             <label for="brand" class="form-label"> Product Brand </label>
-                            <input type="text" name="brand" id="brand" class="form-control" value="{{data[6]}}">
+                            <input type="text" name="brand" id="brand" class="form-control" value="{{data[7]}}">
 
                             <label for="image" class="form-label"> Product Image </label>
-                            <input type="file" name="image" id="image" class="form-control" value="{{data[7]}}"><br>
+                            <input type="file" name="image" id="image" class="form-control" value="{{data[8]}}"><br>
 
                             <input type="number" name="vendor" id="vendor" value="{{session['vendor_id']}}"
                                 class="form-control"><br>
