@@ -136,6 +136,44 @@ def view_products():
     else:
         data = cursor.fetchall()
         return render_template('view_products.html', products=data)
+    
+@app.route('/update/<product_id>', methods=['POST', 'GET'])
+def update_product(product_id):
+    if request.method == 'POST':
+        product_name = request.form['name']
+        product_desc = request.form['desc']
+        product_cost = request.form['cost']
+        product_discount = request.form['discount']
+        product_category = request.form['category']
+        product_brand = request.form['brand']
+        image_url = request.files['image']
+        image_url.save('static/products/' + image_url.filename)
+
+        vendor_id = request.form['vendor']
+
+        connection = pymysql.connect(
+        host='localhost', user='root', password='', database='dshopdb')
+        
+        cursor = connection.cursor()
+        sql = "update products set product_name = %s, product_desc=%s, product_cost = %s, product_discount = %s, product_category = %s, product_brand = %s, image_url = %s where product_id = %s"
+
+        data = (product_name, product_desc, product_cost, product_discount, product_category, product_brand, image_url.filename, product_id)
+
+        cursor.execute(sql, data)
+        connection.commit()
+
+        return redirect('/view_products')
+
+    else:
+        connection = pymysql.connect(
+        host='localhost', user='root', password='', database='dshopdb')
+
+        cursor = connection.cursor()
+        sql = "select * from products where product_id = %s"
+        cursor.execute(sql, product_id)
+        data = cursor.fetchone()
+        return render_template('update.html', data=data)
+
 
 
 @app.route('/buy_products')
@@ -209,6 +247,7 @@ def user_register():
         return render_template('user_register.html', message = "Success!")
     else:
         return render_template('user_register.html', message = "Register Here")
+    
 
 @app.route('/user_login', methods=['POST', 'GET'])
 def user_login():
