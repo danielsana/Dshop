@@ -31,8 +31,8 @@
 
                 {% if session['user_key'] %}
                 <div class="card shadow  p-2 mt-2">
-                    <form action="/mpesa" method="post">
-                        <input type="number" name="amount" value="{{single_record[3]}}" class="form-control" readonly>
+                    <form action="/payment" method="post">
+                        <input type="number" name="amount"  class="form-control">
                         <br>
                         <input type="tel" name="phone" placeholder="Enter Your Phone 2547XXXXXXXXX" class="form-control"
                             required> <br>
