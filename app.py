@@ -174,7 +174,10 @@ def update_product(product_id):
         data = cursor.fetchone()
         return render_template('update.html', data=data)
 
-
+# @app.route('/delete/<product_id>', methods=['POST', 'GET'])
+# def delete_product():
+#     if request.method == 'POST':
+        
 
 @app.route('/buy_products')
 def buy_products():
